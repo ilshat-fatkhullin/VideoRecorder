@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+message Void {
+    
+}
+
+message Camera {
+    string id = 1;
+    bool isActive = 2;
+}
+
+message GetCamerasResult {
+    repeated Camera list = 1;
+}
+
+message SetCameraActivenessRequest {
+    string id = 1;
+    bool isActive = 2;
+}
+
+message SubscribeOnCameraRequest {
+    string id = 1;
+}
+
+message VideoChunk {
+    bytes data = 1;
+}
+
+message GetRecordsResponse {
+    repeated string records = 1;
+}
+
+message SubscribeOnRecordRequest {
+    string id = 1;
+}
+
+message RemoveRecordRequest {
+    string id = 1;
+}
+
+message ActionReport {
+    bool isSuccessful = 1;
+    optional string message = 2;
+}
+
+service API {
+    rpc GetCameras(Void) returns (GetCamerasResult) {}
+    rpc SetCameraActiveness(SetCameraActivenessRequest) returns (ActionReport) {}
+    rpc SubscribeOnCamera(SubscribeOnCameraRequest) returns (stream VideoChunk) {}
+    rpc GetRecords(Void) returns (GetRecordsResponse) {}
+    rpc SubscribeOnRecord(SubscribeOnRecordRequest) returns (stream VideoChunk) {}
+    rpc RemoveRecord(RemoveRecordRequest) returns (ActionReport) {}
+}
